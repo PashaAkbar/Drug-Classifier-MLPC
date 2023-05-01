@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from PIL import Image
 
 st.title('Drug Classification using Multi Layer Perceptron Classifier')
+df = pd.read_csv('data/drug200.csv')
 
 loaded_model = joblib.load("mlpc_model.joblib")
 
@@ -38,7 +40,16 @@ with c:
         Na_to_K = st.number_input("Na_to_K")
 
 
-click = st.button("Prediksi Obat")
+c2  = st.container()
+
+with c2:
+    col1, col2,col3 = c.columns(3)
+    with col1:
+        prediksiObatButton = st.button("Prediksi Obat")
+    with col2:
+        tampilDatasetButton = st.button("Tampilkan Dataset")
+    with col3:
+        tampilAkurasiButton = st.button("Tampilkan Akurasi")
 
 def pred():
     table = [umur, optionSex, optionBP, optionCholesterol, Na_to_K]
@@ -70,7 +81,13 @@ def pred():
 
 
     
-if(click):
+if(prediksiObatButton):
     pred()
 
+if(tampilDatasetButton):
+    st.write(df)
+
+if(tampilAkurasiButton):
+   image = Image.open('Akurasi.png')
+   st.image(image, caption='Akurasi MLPClassifier')
 
